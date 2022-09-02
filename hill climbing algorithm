@@ -1,0 +1,72 @@
+#hill climbing algorithm
+
+import random
+
+tsp = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+def random_city_gen(tsp):
+    random_city = []
+    cities = list(range(len(tsp)))
+    
+    for i in range(len(tsp)):
+        city =  random.choice(cities)
+        random_city.append(city)
+        cities.remove(city)
+    return random_city        
+
+city_list = random_city_gen(tsp)
+print(city_list)
+
+
+
+def route_len(tsp,city_list):
+    r_length = 0
+    for i in range(len(city_list)):
+        r_length += tsp[city_list[i-1]][city_list[i]]
+        print(r_length)
+    return r_length
+
+route_length = route_len(tsp, city_list)    
+print(route_length)
+
+def city_generator(city_list):
+    all_neighbours = []
+    all_neighbours.append(city_list)
+    for i in range(len(city_list)):
+        for j in range(i+1,len(city_list)):
+            neighbour = city_list.copy()
+            neighbour[i], neighbour[j] = neighbour[j], neighbour[i]
+            all_neighbours.append(neighbour)
+            
+    return all_neighbours
+
+all_neighbs = city_generator(city_list)
+print(all_neighbs)
+
+def min_generator(tsp, all_neighbours):
+    current_sol = all_neighbours[0]
+    current_sol_len = route_len(tsp, current_sol)
+    
+    for i in range(1, len(all_neighbours)):
+        if route_len(tsp, all_neighbours[i]) < current_sol_len:
+            current_sol = all_neighbours[i]
+            current_sol_len = route_len(tsp, all_neighbours[i])
+            
+    return current_sol, current_sol_len
+
+a, b = min_generator(tsp,all_neighbs)
+print("solution ",a)
+print("solution lenght ",b)
+
+
+
+
+
+
+
+
