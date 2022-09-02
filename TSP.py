@@ -1,5 +1,5 @@
 #yt vdo TSP
-
+# by vettri
 from sys import maxsize
 v = 4
 
